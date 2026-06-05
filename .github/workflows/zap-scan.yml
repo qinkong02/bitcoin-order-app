@@ -1,0 +1,17 @@
+name: "owasp-scan"
+
+on:
+  push:
+    branches: [githubcicd]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: ZAP scan
+        run: |
+          chmod +x scripts/zap-script.sh
+          scripts/zap-script.sh

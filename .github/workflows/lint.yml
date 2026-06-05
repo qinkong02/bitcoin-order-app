@@ -1,0 +1,24 @@
+name: "linting-tool-scan"
+
+on:
+  push:
+    branches: [githubcicd]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm ci --force
+
+      - name: Installing JSHint
+        run: sudo npm install -g jshint
+
+      - name: Change script permission
+        run: chmod +x scripts/jshint-script.sh
+
+      - name: Run scan with JSHint
+        run: scripts/jshint-script.sh
