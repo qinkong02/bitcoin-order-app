@@ -44,10 +44,15 @@ jobs:
         run: npm run build -- --base-href=/bitcoin-order-app/
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          personal_token: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
-          publish_dir: ./dist/bitcoin
-          publish_branch: gh-pages
-          user_name: "github-actions[bot]"
-          user_email: "github-actions[bot]@users.noreply.github.com"
+        env:
+          GH_TOKEN: ${{ secrets.ACTIONS_DEPLOY_ACCESS_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          cd dist/bitcoin
+          touch .nojekyll
+          git init
+          git add -A
+          git commit -m "deploy to GitHub Pages"
+          git branch -M gh-pages
+          git push -f https://oauth2:${GH_TOKEN}@github.com/${{ github.repository }}.git gh-pages
