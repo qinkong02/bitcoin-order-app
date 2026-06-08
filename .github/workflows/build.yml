@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - githubcicd
+      - feature/mlops-demo
 
 permissions:
   contents: write
